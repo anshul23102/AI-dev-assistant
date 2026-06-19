@@ -1,0 +1,30 @@
+# Gitleaks configuration for AI-dev-assistant
+# This file configures which secrets to detect and which to allow in test environments
+
+[allowlist]
+# Allow test secrets in test files
+paths = [
+    "backend/tests/conftest.py",
+    "^.*\\.test\\.py$",
+    "^.*_test\\.py$",
+]
+
+# Allow specific test secret values that are clearly for testing
+regexes = [
+    "test-secret.*",
+    "test.*-secret.*",
+]
+
+# Allowlist by commit hash for false positives (if any)
+commits = []
+
+# Allowlist by secret hash for specific occurrences
+secretHash = []
+
+[[rules]]
+id = "test-jwt-secret"
+description = "Allow test JWT secret in conftest.py"
+regex = '''test-secret-key-min-32-bytes'''
+secretGroup = 1
+path = "backend/tests/conftest.py"
+allowlist = true
